@@ -30,6 +30,8 @@ class LocationDetailsResource extends JsonResource
             $results[] = $result;
         }
 
-        return ['results' => $results];
+        return [
+            'results' => $results
+        ];
     }
 }

@@ -6,8 +6,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LocationRequest;
 use App\Http\Resources\LocationDetailsResource;
 use App\Services\LocationService;
-use App\Traits\GuzzleRequest;
-use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
@@ -18,11 +16,11 @@ class LocationController extends Controller
         $this->locationService = $locationService;
     }
 
-    public function __invoke(LocationRequest $request)
+    public function getLocationDetails(LocationRequest $request)
     {
         $validated = $request->validated();
         
-        $response = $this->locationService->getLocationDetails($validated['location']);
+        $response = $this->locationService->getPlaceDetails($validated['location']);
 
         return new LocationDetailsResource($response);
     }

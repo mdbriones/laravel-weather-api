@@ -2,32 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LocationRequest;
-use App\Models\WeatherForcast;
-use App\Traits\GuzzleRequest;
+use App\Http\Requests\WeatherForecastRequest;
+use App\Http\Resources\WeatherForecastResource;
+use App\Services\WeatherForecastService;
 
 class WeatherForcastController extends Controller
 {
-    use GuzzleRequest;
+    public $weatherForecastService;
 
-    public function __invoke(LocationRequest $request)
+    public function __construct(WeatherForecastService $weatherForecastService)
     {
-        try {
-            $validated = $request->validated();
-    
-            $uri = 'https://api.openweathermap.org/data/2.5/forecast?';
-            $filters = 'q=' . $validated['location'] . '&appid=' . env('OPENWEATHER_API');
+        $this->weatherForecastService = $weatherForecastService;
+    }
 
-            $response = $this->httpRequest($uri, $filters, false);
-    
-            return $response->getBody();
+    public function getWeatherForecasts(WeatherForecastRequest $request)
+    {
+        $validated = $request->validated();
+        
+        $response = $this->weatherForecastService->getWeatherForecast($validated['location']);
 
-        } catch (\Exception $e) {
-            if (str_contains($e->getMessage(), '404')) {
-                return response()->json(['error' => 'city not found']);
-            }
-            
-            return 'Unexpected error: ' . $e->getMessage();
-        }
+        return new WeatherForecastResource($response);
     }
 }

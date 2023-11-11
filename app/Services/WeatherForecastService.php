@@ -4,26 +4,27 @@ namespace App\Services;
 
 use App\Traits\GuzzleRequest;
 
-class LocationService
+class WeatherForecastService
 {
     use GuzzleRequest;
 
-    public function getPlaceDetails($data)
+    public function getWeatherForecast($data)
     {
         try {
-            $uri = 'https://api.foursquare.com/v3/places/search?';
-            $filters = 'near=' . $data;
+            $uri = 'https://api.openweathermap.org/data/2.5/forecast?';
+            $filters = 'q=' . $data . '&appid=' . env('OPENWEATHER_API');
 
-            $response = $this->httpRequest($uri, $filters, true);
+            $response = $this->httpRequest($uri, $filters, false);
 
             $responseContent = $response->getBody()->getContents();
 
             return json_decode($responseContent, true);
+
         } catch (\Exception $e) {
             if (str_contains($e->getMessage(), '404')) {
-                return response()->json(['error' => 'City not found']);
+                return response()->json(['error' => 'city not found']);
             }
-
+            
             return 'Unexpected error: ' . $e->getMessage();
         }
     }
