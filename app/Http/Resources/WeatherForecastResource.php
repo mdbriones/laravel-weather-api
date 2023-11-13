@@ -20,8 +20,8 @@ class WeatherForecastResource extends JsonResource
 
         $results['city'] = [
             'name' => $data['city']['name'],
-            'sunrise' => date('F d, Y h:i', $data['city']['sunrise']),
-            'sunset' => date('F d, Y h:i', $data['city']['sunset']),
+            'sunrise' => date('F d, Y h:i A', $data['city']['sunrise']),
+            'sunset' => date('F d, Y h:i A', $data['city']['sunset']),
         ];
 
         foreach ($data['list'] as $forecast) {
