@@ -16,12 +16,16 @@ class LocationController extends Controller
         $this->locationService = $locationService;
     }
 
-    public function getLocationDetails(LocationRequest $request)
+    public function getNearbyPlaces(LocationRequest $request)
     {
         $validated = $request->validated();
         
         $response = $this->locationService->getPlaceDetails($validated['location']);
 
+        if (isset($response['code'])) {
+            return [];
+        }
+        
         return new LocationDetailsResource($response);
     }
 }

@@ -11,8 +11,8 @@ class WeatherForecastService
     public function getWeatherForecast($data)
     {
         try {
-            $uri = 'https://api.openweathermap.org/data/2.5/forecast?';
-            $filters = 'q=' . $data . '&appid=' . env('OPENWEATHER_API');
+            $uri = env('OPENWEATHER_URI');
+            $filters = 'q=' . $data . '&appid=' . env('OPENWEATHER_API') . '&units=metric';
 
             $response = $this->httpRequest($uri, $filters, false);
 
@@ -21,11 +21,10 @@ class WeatherForecastService
             return json_decode($responseContent, true);
 
         } catch (\Exception $e) {
-            if (str_contains($e->getMessage(), '404')) {
-                return response()->json(['error' => 'city not found']);
-            }
-            
-            return 'Unexpected error: ' . $e->getMessage();
+            return [
+                'code' => 404 
+            ];
+            // return response()->json(['error' => 'No City Available'], $e->getCode());
         }
     }
 }

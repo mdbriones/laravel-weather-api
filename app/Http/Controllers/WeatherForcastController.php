@@ -21,6 +21,10 @@ class WeatherForcastController extends Controller
         
         $response = $this->weatherForecastService->getWeatherForecast($validated['location']);
 
+        if (isset($response['code'])) {
+            return [];
+        }
+        
         return new WeatherForecastResource($response);
     }
 }

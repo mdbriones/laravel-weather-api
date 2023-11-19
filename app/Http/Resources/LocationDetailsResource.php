@@ -20,7 +20,7 @@ class LocationDetailsResource extends JsonResource
 
         foreach ($data as $item) {
             $result = [
-                'fsq_id' => $item['fsq_id'],
+                // 'fsq_id' => $item['fsq_id'],
                 'categories' => $item['categories'],
                 'closed_bucket' => $item['closed_bucket'],
                 'location' => $item['location'],

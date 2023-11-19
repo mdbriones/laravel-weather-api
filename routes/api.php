@@ -22,5 +22,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('location')->group(function () {
     Route::get('/forecasts', [WeatherForcastController::class, 'getWeatherForecasts']);
-    Route::get('/details', [LocationController::class, 'getLocationDetails']);
+    Route::get('/nearbyPlaces', [LocationController::class, 'getNearbyPlaces']);
 });

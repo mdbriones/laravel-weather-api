@@ -11,7 +11,7 @@ class LocationService
     public function getPlaceDetails($data)
     {
         try {
-            $uri = 'https://api.foursquare.com/v3/places/search?';
+            $uri = env('FOURSQUARE_PLACES_URI');
             $filters = 'near=' . $data;
 
             $response = $this->httpRequest($uri, $filters, true);
@@ -20,11 +20,9 @@ class LocationService
 
             return json_decode($responseContent, true);
         } catch (\Exception $e) {
-            if (str_contains($e->getMessage(), '404')) {
-                return response()->json(['error' => 'City not found']);
-            }
-
-            return 'Unexpected error: ' . $e->getMessage();
+            return [
+                'code' => 404 
+            ];
         }
     }
 }
