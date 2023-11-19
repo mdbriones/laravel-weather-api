@@ -17,7 +17,7 @@ copy env.example to env.
 php artisan key:generate
 ```
 
-##### API_KEY
+##### API_KEY (edit .env file)
 ##### Create account and project in Foursquare and OpenWeatherAPI.
 ##### Use the api keys provided after creation.
 ```sh
